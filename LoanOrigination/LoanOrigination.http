@@ -1,0 +1,59 @@
+@base = http://localhost:5000
+
+### 1. Strong applicant -> AutoApproved
+POST {{base}}/api/LoanApplications
+Content-Type: application/json
+
+{
+  "applicantName": "Aisha Khan",
+  "age": 32,
+  "netMonthlyIncome": 120000,
+  "existingMonthlyEmi": 8000,
+  "loanAmount": 300000,
+  "tenureMonths": 36,
+  "annualInterestRate": 12.5,
+  "creditScore": 790
+}
+
+### 2. Borderline credit score -> Referred (then use the returned id below)
+POST {{base}}/api/LoanApplications
+Content-Type: application/json
+
+{
+  "applicantName": "Rahul Verma",
+  "age": 40,
+  "netMonthlyIncome": 90000,
+  "existingMonthlyEmi": 10000,
+  "loanAmount": 250000,
+  "tenureMonths": 24,
+  "annualInterestRate": 13,
+  "creditScore": 700
+}
+
+### 3. Weak applicant -> AutoDeclined
+POST {{base}}/api/LoanApplications
+Content-Type: application/json
+
+{
+  "applicantName": "Sample Reject",
+  "age": 30,
+  "netMonthlyIncome": 28000,
+  "existingMonthlyEmi": 12000,
+  "loanAmount": 600000,
+  "tenureMonths": 12,
+  "annualInterestRate": 14,
+  "creditScore": 610
+}
+
+### 4. List all applications
+GET {{base}}/api/LoanApplications
+
+### 5. Maker-checker review of a REFERRED application (replace the id)
+POST {{base}}/api/LoanApplications/PUT-REFERRED-ID-HERE/review
+Content-Type: application/json
+
+{
+  "approve": true,
+  "reviewedBy": "underwriter.jane",
+  "comment": "Verified salary slips; income stable, approving."
+}
